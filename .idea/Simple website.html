@@ -8,9 +8,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
+            $("#tabla").hide();
             $("#btn").click(function(){
-                $("#bodytable").empty()
+                $("#body").empty()
 
                 $.ajax({
                     type: 'GET',
@@ -20,15 +21,17 @@
                     success: function (data) {
                         var json = $.parseJSON(data);
 
-                        $("#table").show();
-                        $("#tabletitle").text("Los repositorios de " + $("#user").val() + " :");
+                        $("#tabla").show();
 
-                        for (var i = 1; i < json.length; i++ ){
-                            $("#bodytable").append('<tr>' +
+                        for (var i = 0; i < json.length; i++ ){
+                            $("#body").append('<tr>' +
                                 '<td>' + json[i].name + '</td>' +
                                 '<td>' + json[i].description + '</td>' +
                                 '<td>' + json[i].stargazers_count + '</td>' + '</tr>');
                         }
+                    },
+                    error: function (data){
+                        alert("Error, nombre de usuario no encontrado");
                     }
                 });
             });
@@ -52,6 +55,22 @@
                 </div>
             </div>
         </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div id="tabla" class="container col-sm-4 text-center d-none">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Followers</th>
+                </tr>
+            </thead>
+            <tbody id="body">
+            </tbody>
+        </table>
     </div>
 </div>
 </body>
