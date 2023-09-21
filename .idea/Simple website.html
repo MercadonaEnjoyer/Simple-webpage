@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                $("#bodytable").empty()
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.github.com/users/' + $('#user').val() + '/repos',
+                    data: {get_param: 'value'},
+                    dataType: 'text',
+                    success: function (data) {
+                        var json = $.parseJSON(data);
+
+                        $("#table").show();
+                        $("#tabletitle").text("Los repositorios de " + $("#user").val() + " :");
+
+                        for (var i = 1; i < json.length; i++ ){
+                            $("#bodytable").append('<tr>' +
+                                '<td>' + json[i].name + '</td>' +
+                                '<td>' + json[i].description + '</td>' +
+                                '<td>' + json[i].stargazers_count + '</td>' + '</tr>');
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body style="background-color: lightgray;">
+<div class="jumbotron text-center">
+    <h1>Simple Bootsrtrap and Jquery webpage</h1>
+</div>
+<div class="row">
+    <div class="col-sm-12"><p class="text-center">Introduce tu nombre de GitHub:</p>
+        <nav class="navbar-form text-center">
+            <div class="input-group">
+                <input id="user" type="text" class="form-control" placeholder="Search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" id="btn">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
